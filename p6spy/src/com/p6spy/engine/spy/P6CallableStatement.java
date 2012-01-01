@@ -168,7 +168,8 @@ public class P6CallableStatement extends P6PreparedStatement implements java.sql
         return callStmtPassthru.getBigDecimal(p0);
     }
     
-    public java.math.BigDecimal getBigDecimal(int p0, int p1) throws java.sql.SQLException {
+    @SuppressWarnings("deprecation")
+	public java.math.BigDecimal getBigDecimal(int p0, int p1) throws java.sql.SQLException {
         return callStmtPassthru.getBigDecimal(p0,p1);
     }
     
