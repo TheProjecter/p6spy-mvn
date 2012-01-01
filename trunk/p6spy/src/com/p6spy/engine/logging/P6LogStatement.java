@@ -130,9 +130,13 @@
 
 package com.p6spy.engine.logging;
 
-import java.sql.*;
-import com.p6spy.engine.spy.*;
-import com.p6spy.engine.common.*;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import com.p6spy.engine.common.P6LogQuery;
+import com.p6spy.engine.spy.P6Connection;
+import com.p6spy.engine.spy.P6Factory;
+import com.p6spy.engine.spy.P6Statement;
 
 public class P6LogStatement extends P6Statement implements Statement {
     

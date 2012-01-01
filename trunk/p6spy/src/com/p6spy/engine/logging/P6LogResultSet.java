@@ -107,9 +107,14 @@
 
 package com.p6spy.engine.logging;
 
-import com.p6spy.engine.spy.*;
-import com.p6spy.engine.common.*;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.p6spy.engine.common.P6LogQuery;
+import com.p6spy.engine.spy.P6Connection;
+import com.p6spy.engine.spy.P6Factory;
+import com.p6spy.engine.spy.P6ResultSet;
+import com.p6spy.engine.spy.P6Statement;
 
 public class P6LogResultSet extends P6ResultSet implements ResultSet {
 
