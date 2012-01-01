@@ -126,68 +126,66 @@
 
 package com.p6spy.engine.outage;
 
-import com.p6spy.engine.spy.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Savepoint;
 
+import com.p6spy.engine.spy.P6Connection;
+import com.p6spy.engine.spy.P6Factory;
+
+@SuppressWarnings("unchecked")
 public class P6OutageConnection extends P6Connection implements java.sql.Connection {
-    
-    
-    public P6OutageConnection(P6Factory factory, Connection conn) throws SQLException {
-        super(factory, conn);
-    }
-    
-    public void commit() throws SQLException {
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,
-            "commit","", "");
-        }
-        
-        try {
-            passthru.commit();
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    public void rollback() throws SQLException {
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,
-            "rollback","", "");
-        }
-        
-        try {
-            passthru.rollback();
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    // Since JDK 1.4
-    public void rollback(Savepoint p0) throws SQLException {
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,
-            "rollback","", "");
-        }
-        
-        try {
-            passthru.rollback(p0);
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
+
+	public P6OutageConnection(P6Factory factory, Connection conn) throws SQLException {
+		super(factory, conn);
+	}
+
+	public void commit() throws SQLException {
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "commit", "", "");
+		}
+
+		try {
+			passthru.commit();
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	public void rollback() throws SQLException {
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "rollback", "", "");
+		}
+
+		try {
+			passthru.rollback();
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	// Since JDK 1.4
+	public void rollback(Savepoint p0) throws SQLException {
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "rollback", "", "");
+		}
+
+		try {
+			passthru.rollback(p0);
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
 }
