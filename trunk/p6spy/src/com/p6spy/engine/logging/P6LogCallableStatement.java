@@ -100,13 +100,20 @@ import java.sql.*;
 public class P6LogCallableStatement extends P6CallableStatement implements java.sql.CallableStatement {
 
 	// ---------------------------------------------------------------------------------------
-	// considered delegation for this, but that doesn't quite work because P6CallableStatement
-	// manipulates some values - so we would have to make P6CallableStatement delegate as well,
-	// which really defeats the purpose.  this means we do have to copy all of the methods
-	// we want to use in P6Statement and P6PreparedStatement.  to understand why we are doing this
-	// realize that P6LogCallableStatement inherits from P6Callabletatement which inherits from
-	// P6PreparedStatement, which in turn inherits from P6Statement.  So P6LogCallableStatement
-	// never inherits from P6LogPreparedStatement and therefore it does not inherit any of the
+	// considered delegation for this, but that doesn't quite work because
+	// P6CallableStatement
+	// manipulates some values - so we would have to make P6CallableStatement
+	// delegate as well,
+	// which really defeats the purpose. this means we do have to copy all of
+	// the methods
+	// we want to use in P6Statement and P6PreparedStatement. to understand why
+	// we are doing this
+	// realize that P6LogCallableStatement inherits from P6Callabletatement
+	// which inherits from
+	// P6PreparedStatement, which in turn inherits from P6Statement. So
+	// P6LogCallableStatement
+	// never inherits from P6LogPreparedStatement and therefore it does not
+	// inherit any of the
 	// functionality we define in P6PreparedLogStatement.
 	// ---------------------------------------------------------------------------------------
 
