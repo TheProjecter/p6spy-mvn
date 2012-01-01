@@ -132,9 +132,14 @@
 
 package com.p6spy.engine.logging;
 
-import com.p6spy.engine.spy.*;
-import com.p6spy.engine.common.*;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.p6spy.engine.common.P6LogQuery;
+import com.p6spy.engine.spy.P6Connection;
+import com.p6spy.engine.spy.P6Factory;
+import com.p6spy.engine.spy.P6PreparedStatement;
 
 public class P6LogPreparedStatement extends P6PreparedStatement implements PreparedStatement {
 
@@ -187,11 +192,15 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
 	}
 
 	// ---------------------------------------------------------------------------------------
-	// we need to override the same methods that P6SLogStatement overrides because we don't have
-	// multiple inheritance.  considering the alternatives (delegation), it seems cleaner
-	// to just override the methods.  to understand why this is true, realize
-	// P6LogPreparedStatement inherits from P6PreparedStatement which inherits from P6Statement,
-	// so P6LogPreparedStatement never inherits from P6LogStatement and therefore it does not
+	// we need to override the same methods that P6SLogStatement overrides
+	// because we don't have
+	// multiple inheritance. considering the alternatives (delegation), it seems
+	// cleaner
+	// to just override the methods. to understand why this is true, realize
+	// P6LogPreparedStatement inherits from P6PreparedStatement which inherits
+	// from P6Statement,
+	// so P6LogPreparedStatement never inherits from P6LogStatement and
+	// therefore it does not
 	// inherit any of the functionality we define in P6LogStatement.
 	// ---------------------------------------------------------------------------------------
 
