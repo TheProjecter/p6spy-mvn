@@ -78,6 +78,7 @@ import com.p6spy.engine.util.P6SpyConst;
  */
 
 public abstract class FormattedLogger {
+
 	protected String lastEntry;
 	private P6Formatter formatter;
 
@@ -87,16 +88,16 @@ public abstract class FormattedLogger {
 	public void logSQL(int connectionId, String now, long elapsed, String category, String prepared, String sql) {
 		P6SpyProperties properties = new P6SpyProperties();
 
-		String 	logEntry 	= "";
-		String 	logFormat 	= "";
-		boolean isShowSql 	= Boolean.FALSE;
+		String logEntry = "";
+		String logFormat = "";
+		boolean isShowSql = Boolean.FALSE;
 		boolean isFormatSql = Boolean.FALSE;
 
 		Properties props = properties.forceReadProperties();
-		
-		isShowSql 		= P6PropertiesHelper.getBoolean("show_sql", props);
-		isFormatSql 	= P6PropertiesHelper.getBoolean("format_sql", props);
-		logFormat 		= P6PropertiesHelper.getString("logformat", props, null);
+
+		isShowSql = P6PropertiesHelper.getBoolean("show_sql", props);
+		isFormatSql = P6PropertiesHelper.getBoolean("format_sql", props);
+		logFormat = P6PropertiesHelper.getString("logformat", props, null);
 
 		if (Boolean.TRUE.equals(isShowSql)) {
 			String statement = sql.replaceAll("\\s+", " ");
@@ -105,7 +106,7 @@ public abstract class FormattedLogger {
 				formatter = getFormatter(statement);
 				statement = formatter.format(statement);
 			}
-			
+
 			if ("1".equals(logFormat)) {
 				logEntry = statement + ";\r\n";
 				logEntry += "============================================================";
@@ -116,14 +117,11 @@ public abstract class FormattedLogger {
 			} else if ("4".equals(logFormat)) {
 				logEntry = category + ": \r\n" + statement + ";";
 			} else {
-				logEntry = "|"
-						+ elapsed
-						+ "|"
-						+ (connectionId == -1 ? "" : String
-								.valueOf(connectionId)) + "|" + category + "|"
-						+ prepared + "|" + statement + ";";
+				logEntry =
+						"|" + elapsed + "|" + (connectionId == -1 ? "" : String.valueOf(connectionId)) + "|" + category + "|"
+								+ prepared + "|" + statement + ";";
 			}
-		
+
 			logText(logEntry);
 		}
 
@@ -134,17 +132,18 @@ public abstract class FormattedLogger {
 	 */
 	public P6Formatter getFormatter(String sql) {
 		String lowerSql = sql.toLowerCase();
-		if ( lowerSql.startsWith(P6SpyConst.DDL_CREATE_TABLE) || lowerSql.startsWith(P6SpyConst.DDL_DROP_TABLE) ||
-				lowerSql.startsWith(P6SpyConst.DDL_ALTER_TABLE) || lowerSql.startsWith(P6SpyConst.DDL_COMMENT_ON) ||
-				lowerSql.startsWith(P6SpyConst.DDL_TRUNC_TABLE) ) {
+		if (lowerSql.startsWith(P6SpyConst.DDL_CREATE_TABLE) || lowerSql.startsWith(P6SpyConst.DDL_DROP_TABLE)
+				|| lowerSql.startsWith(P6SpyConst.DDL_ALTER_TABLE) || lowerSql.startsWith(P6SpyConst.DDL_COMMENT_ON)
+				|| lowerSql.startsWith(P6SpyConst.DDL_TRUNC_TABLE)) {
 			return P6FormatStyle.DDL.getFormatter();
-		} else if (lowerSql.startsWith(P6SpyConst.DML_INSERT_PREFIX) || lowerSql.startsWith(P6SpyConst.DML_UPDATE_PREFIX)||
-				lowerSql.startsWith(P6SpyConst.DML_DELETE_PREFIX) || lowerSql.startsWith(P6SpyConst.DML_SELECT_PREFIX) ){
+		} else if (lowerSql.startsWith(P6SpyConst.DML_INSERT_PREFIX) || lowerSql.startsWith(P6SpyConst.DML_UPDATE_PREFIX)
+				|| lowerSql.startsWith(P6SpyConst.DML_DELETE_PREFIX) || lowerSql.startsWith(P6SpyConst.DML_SELECT_PREFIX)) {
 			return P6FormatStyle.BASIC.getFormatter();
 		} else {
 			return P6FormatStyle.NONE.getFormatter();
 		}
 	}
+
 	public abstract void logText(String text);
 
 	// they also all need to have the last entry thing

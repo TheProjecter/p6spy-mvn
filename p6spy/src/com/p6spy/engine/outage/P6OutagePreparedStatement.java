@@ -132,282 +132,271 @@
 
 package com.p6spy.engine.outage;
 
-import com.p6spy.engine.spy.*;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.p6spy.engine.spy.P6Connection;
+import com.p6spy.engine.spy.P6Factory;
+import com.p6spy.engine.spy.P6PreparedStatement;
+import com.p6spy.engine.spy.P6ResultSet;
 
 public class P6OutagePreparedStatement extends P6PreparedStatement implements PreparedStatement {
-    
-    
-    public P6OutagePreparedStatement(P6Factory factory, PreparedStatement statement, P6Connection conn, String query) {
-        super(factory, statement, conn, query);
-    }
-    
-    public boolean execute() throws SQLException {
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,
-            "statement", preparedQuery, getQueryFromPreparedStatement());
-        }
-        
-        try {
-            return prepStmtPassthru.execute();
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    public ResultSet executeQuery() throws SQLException {
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this, startTime,
-            "statement", preparedQuery, getQueryFromPreparedStatement());
-        }
-        
-        try {
-            ResultSet resultSet = prepStmtPassthru.executeQuery();
-            return (new P6ResultSet(getP6Factory(), resultSet, this, preparedQuery, getQueryFromPreparedStatement()));
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    public int executeUpdate() throws SQLException {
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this, startTime,
-            "statement", preparedQuery, getQueryFromPreparedStatement());
-        }
-        
-        try {
-            return prepStmtPassthru.executeUpdate();
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    // ---------------------------------------------------------------------------------------
-    // we need to override the same methods that P6SLogStatement overrides because we don't have
-    // multiple inheritance.  considering the alternatives (delegation), it seems cleaner
-    // to just override the methods.  to understand why this is true, realize
-    // P6LogPreparedStatement inherits from P6PreparedStatement which inherits from P6Statement,
-    // so P6LogPreparedStatement never inherits from P6LogStatement and therefore it does not
-    // inherit any of the functionality we define in P6LogStatement.
-    // ---------------------------------------------------------------------------------------
-    
-    public boolean execute(String p0) throws java.sql.SQLException {
-        statementQuery = p0;
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
-        }
-        
-        try {
-            return passthru.execute(p0);
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    // Since JDK 1.4
-    public boolean execute(String p0, int p1) throws java.sql.SQLException {
-        statementQuery = p0;
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
-        }
-        
-        try {
-            return passthru.execute(p0, p1);
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    // Since JDK 1.4
-    public boolean execute(String p0, int p1[]) throws java.sql.SQLException {
-        statementQuery = p0;
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
-        }
-        
-        try {
-            return passthru.execute(p0, p1);
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    // Since JDK 1.4
-    public boolean execute(String p0, String p1[]) throws java.sql.SQLException {
-        statementQuery = p0;
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
-        }
-        
-        try {
-            return passthru.execute(p0, p1);
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    public ResultSet executeQuery(String p0) throws java.sql.SQLException {
-        statementQuery = p0;
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
-        }
-        
-        try {
-            return (new P6ResultSet(getP6Factory(), passthru.executeQuery(p0), this, "", p0));
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    public int executeUpdate(String p0) throws java.sql.SQLException {
-        statementQuery = p0;
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
-        }
-        
-        try {
-            return(passthru.executeUpdate(p0));
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    // Since JDK 1.4
-    public int executeUpdate(String p0, int p1) throws java.sql.SQLException {
-        statementQuery = p0;
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
-        }
-        
-        try {
-            return(passthru.executeUpdate(p0, p1));
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    // Since JDK 1.4
-    public int executeUpdate(String p0, int p1[]) throws java.sql.SQLException {
-        statementQuery = p0;
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
-        }
-        
-        try {
-            return(passthru.executeUpdate(p0, p1));
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    // Since JDK 1.4
-    public int executeUpdate(String p0, String p1[]) throws java.sql.SQLException {
-        statementQuery = p0;
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
-        }
-        
-        try {
-            return(passthru.executeUpdate(p0, p1));
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    public void addBatch(String p0) throws java.sql.SQLException {
-        statementQuery = p0;
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,
-            "batch","", p0);
-        }
-        
-        try {
-            passthru.addBatch(p0);
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
-    
-    public int[] executeBatch() throws java.sql.SQLException {
-        long startTime = System.currentTimeMillis();
-        
-        if (P6OutageOptions.getOutageDetection()) {
-            P6OutageDetector.getInstance().registerInvocation(this,startTime,
-            "statement", preparedQuery, statementQuery);
-        }
-        
-        try {
-            return(passthru.executeBatch());
-        }
-        finally {
-            if (P6OutageOptions.getOutageDetection()) {
-                P6OutageDetector.getInstance().unregisterInvocation(this);
-            }
-        }
-    }
+
+	public P6OutagePreparedStatement(P6Factory factory, PreparedStatement statement, P6Connection conn, String query) {
+		super(factory, statement, conn, query);
+	}
+
+	public boolean execute() throws SQLException {
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", preparedQuery,
+					getQueryFromPreparedStatement());
+		}
+
+		try {
+			return prepStmtPassthru.execute();
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	public ResultSet executeQuery() throws SQLException {
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", preparedQuery,
+					getQueryFromPreparedStatement());
+		}
+
+		try {
+			ResultSet resultSet = prepStmtPassthru.executeQuery();
+			return (new P6ResultSet(getP6Factory(), resultSet, this, preparedQuery, getQueryFromPreparedStatement()));
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	public int executeUpdate() throws SQLException {
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", preparedQuery,
+					getQueryFromPreparedStatement());
+		}
+
+		try {
+			return prepStmtPassthru.executeUpdate();
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	// ---------------------------------------------------------------------------------------
+	// we need to override the same methods that P6SLogStatement overrides because we don't have
+	// multiple inheritance.  considering the alternatives (delegation), it seems cleaner
+	// to just override the methods.  to understand why this is true, realize
+	// P6LogPreparedStatement inherits from P6PreparedStatement which inherits from P6Statement,
+	// so P6LogPreparedStatement never inherits from P6LogStatement and therefore it does not
+	// inherit any of the functionality we define in P6LogStatement.
+	// ---------------------------------------------------------------------------------------
+
+	public boolean execute(String p0) throws java.sql.SQLException {
+		statementQuery = p0;
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", "", p0);
+		}
+
+		try {
+			return passthru.execute(p0);
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	// Since JDK 1.4
+	public boolean execute(String p0, int p1) throws java.sql.SQLException {
+		statementQuery = p0;
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", "", p0);
+		}
+
+		try {
+			return passthru.execute(p0, p1);
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	// Since JDK 1.4
+	public boolean execute(String p0, int p1[]) throws java.sql.SQLException {
+		statementQuery = p0;
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", "", p0);
+		}
+
+		try {
+			return passthru.execute(p0, p1);
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	// Since JDK 1.4
+	public boolean execute(String p0, String p1[]) throws java.sql.SQLException {
+		statementQuery = p0;
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", "", p0);
+		}
+
+		try {
+			return passthru.execute(p0, p1);
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	public ResultSet executeQuery(String p0) throws java.sql.SQLException {
+		statementQuery = p0;
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", "", p0);
+		}
+
+		try {
+			return (new P6ResultSet(getP6Factory(), passthru.executeQuery(p0), this, "", p0));
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	public int executeUpdate(String p0) throws java.sql.SQLException {
+		statementQuery = p0;
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", "", p0);
+		}
+
+		try {
+			return (passthru.executeUpdate(p0));
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	// Since JDK 1.4
+	public int executeUpdate(String p0, int p1) throws java.sql.SQLException {
+		statementQuery = p0;
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", "", p0);
+		}
+
+		try {
+			return (passthru.executeUpdate(p0, p1));
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	// Since JDK 1.4
+	public int executeUpdate(String p0, int p1[]) throws java.sql.SQLException {
+		statementQuery = p0;
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", "", p0);
+		}
+
+		try {
+			return (passthru.executeUpdate(p0, p1));
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	// Since JDK 1.4
+	public int executeUpdate(String p0, String p1[]) throws java.sql.SQLException {
+		statementQuery = p0;
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", "", p0);
+		}
+
+		try {
+			return (passthru.executeUpdate(p0, p1));
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	public void addBatch(String p0) throws java.sql.SQLException {
+		statementQuery = p0;
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "batch", "", p0);
+		}
+
+		try {
+			passthru.addBatch(p0);
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
+
+	public int[] executeBatch() throws java.sql.SQLException {
+		long startTime = System.currentTimeMillis();
+
+		if (P6OutageOptions.getOutageDetection()) {
+			P6OutageDetector.getInstance().registerInvocation(this, startTime, "statement", preparedQuery, statementQuery);
+		}
+
+		try {
+			return (passthru.executeBatch());
+		} finally {
+			if (P6OutageOptions.getOutageDetection()) {
+				P6OutageDetector.getInstance().unregisterInvocation(this);
+			}
+		}
+	}
 }

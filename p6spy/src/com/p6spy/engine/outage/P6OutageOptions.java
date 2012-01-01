@@ -61,35 +61,37 @@
 
 package com.p6spy.engine.outage;
 
-import com.p6spy.engine.common.*;
+import com.p6spy.engine.common.P6Options;
+import com.p6spy.engine.common.P6Util;
 
 public class P6OutageOptions extends P6Options {
-    
-    public P6OutageOptions() { }
-    
-    protected static boolean outageDetection;
-    protected static long outageDetectionInterval;
-    protected static long outageMs;
-            
-    public static boolean getOutageDetection() {
-        return outageDetection;
-    }
-    
-    public static void setOutageDetection(String _outagedetection) {
-        outageDetection = P6Util.isTrue(_outagedetection, false);
-    }
-    
-    public static long getOutageDetectionInterval() {
-        return outageDetectionInterval;
-    }
-    
-    public static long getOutageDetectionIntervalMS() {
-        return outageMs;
-    }
-    
-    public static void setOutageDetectionInterval(String _outagedetectioninterval) {
-        outageDetectionInterval = P6Util.parseLong(_outagedetectioninterval,-1l);
-        outageMs = outageDetectionInterval * 1000l;
-    }
-    
+
+	public P6OutageOptions() {
+	}
+
+	protected static boolean outageDetection;
+	protected static long outageDetectionInterval;
+	protected static long outageMs;
+
+	public static boolean getOutageDetection() {
+		return outageDetection;
+	}
+
+	public static void setOutageDetection(String _outagedetection) {
+		outageDetection = P6Util.isTrue(_outagedetection, false);
+	}
+
+	public static long getOutageDetectionInterval() {
+		return outageDetectionInterval;
+	}
+
+	public static long getOutageDetectionIntervalMS() {
+		return outageMs;
+	}
+
+	public static void setOutageDetectionInterval(String _outagedetectioninterval) {
+		outageDetectionInterval = P6Util.parseLong(_outagedetectioninterval, -1l);
+		outageMs = outageDetectionInterval * 1000l;
+	}
+
 }
