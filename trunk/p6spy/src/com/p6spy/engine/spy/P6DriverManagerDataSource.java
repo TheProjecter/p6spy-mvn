@@ -83,75 +83,79 @@
 
 package com.p6spy.engine.spy;
 
-import java.sql.*;
-import javax.sql.*;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import com.p6spy.engine.common.P6Util;
 
 public class P6DriverManagerDataSource implements DataSource {
-    protected DataSource rds;
-    protected String url;
-    protected String user;
-    protected String password;
 
-    public P6DriverManagerDataSource() {
-	try {
-	    P6Util.forName("com.p6spy.engine.spy.P6SpyDriver");
-	} catch (Exception e) {
+	protected DataSource rds;
+	protected String url;
+	protected String user;
+	protected String password;
+
+	public P6DriverManagerDataSource() {
+		try {
+			P6Util.forName("com.p6spy.engine.spy.P6SpyDriver");
+		} catch (Exception e) {}
 	}
-    }
 
-    public String getPassword() {
-	return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPassword(String inVar) {
-	password = inVar;
-    }
-    public String getUser() {
-	return user;
-    }
+	public void setPassword(String inVar) {
+		password = inVar;
+	}
 
-    public void setUser(String inVar) {
-	user = inVar;
-    }
+	public String getUser() {
+		return user;
+	}
 
-    public String getUrl() {
-	return url;
-    }
+	public void setUser(String inVar) {
+		user = inVar;
+	}
 
-    public void setUrl(String inVar) {
-	url = inVar;
-    }
+	public String getUrl() {
+		return url;
+	}
 
+	public void setUrl(String inVar) {
+		url = inVar;
+	}
 
-    public int getLoginTimeout() throws SQLException {
-	return DriverManager.getLoginTimeout();
-    }
+	public int getLoginTimeout() throws SQLException {
+		return DriverManager.getLoginTimeout();
+	}
 
-    public void setLoginTimeout(int inVar) throws SQLException {
-	DriverManager.setLoginTimeout(inVar);
-    }
+	public void setLoginTimeout(int inVar) throws SQLException {
+		DriverManager.setLoginTimeout(inVar);
+	}
 
-    public PrintWriter getLogWriter() throws SQLException {
-	return DriverManager.getLogWriter();
-    }
+	public PrintWriter getLogWriter() throws SQLException {
+		return DriverManager.getLogWriter();
+	}
 
-    public void setLogWriter(PrintWriter inVar) throws SQLException {
-	DriverManager.setLogWriter(inVar);
-    }
+	public void setLogWriter(PrintWriter inVar) throws SQLException {
+		DriverManager.setLogWriter(inVar);
+	}
 
-    public Connection getConnection() throws SQLException {
+	public Connection getConnection() throws SQLException {
 
-	return getConnection(url, user, password);
-    }
+		return getConnection(url, user, password);
+	}
 
-    public Connection getConnection(String p0, String p1) throws SQLException {
-	return getConnection(url, p0, p1);
-    }
+	public Connection getConnection(String p0, String p1) throws SQLException {
+		return getConnection(url, p0, p1);
+	}
 
-    public Connection getConnection(String p0, String p1, String p2) throws SQLException {
-	return DriverManager.getConnection(p0, p1, p2);
-    }
+	public Connection getConnection(String p0, String p1, String p2) throws SQLException {
+		return DriverManager.getConnection(p0, p1, p2);
+	}
 
 }

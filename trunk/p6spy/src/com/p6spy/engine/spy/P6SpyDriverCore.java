@@ -217,30 +217,29 @@ public abstract class P6SpyDriverCore implements Driver {
 		}
 
 		foundSpyProperties = true;
+		List<String> modules = P6SpyOptions.allModules();
+		boolean hasModules = modules.size() > 0;
 
-		P6SpyProperties properties = new P6SpyProperties();
-		P6SpyOptions coreOptions = new P6SpyOptions();
-		OptionReloader.add(coreOptions, properties);
+		// register drivers and wrappers
+		registerAllDrivers(hasModules);
 
-		// now register the core options file with the reloader
+		// instantiate the factories, if nec.
+		registerAllFactories(modules, hasModules);
 
+		initialized = true;
+		for (Enumeration<Driver> e = DriverManager.getDrivers(); e.hasMoreElements();) {
+			P6LogQuery.logDebug("Driver manager reporting driver registered: " + e.nextElement());
+		}
+
+	}
+
+	static void registerAllDrivers(boolean hasModules) {
+		List<String> driverNames = P6SpyOptions.allDriverNames();
+		Iterator<String> iter = driverNames.iterator();
 		String className = "no class";
-		String classType = "driver";
+
 		try {
-			List<String> driverNames = null;
-			List<String> modules = null;
-
-			driverNames = P6SpyOptions.allDriverNames();
-			modules = P6SpyOptions.allModules();
-
-			boolean hasModules = modules.size() > 0;
-
-			Iterator<String> i = null;
-
-			// register drivers and wrappers
-			classType = "driver";
-			i = driverNames.iterator();
-			while (i.hasNext()) {
+			while (iter.hasNext()) {
 				P6SpyDriver spy = null;
 				// register P6 first if you are using it
 				if (hasModules) {
@@ -253,7 +252,7 @@ public abstract class P6SpyDriverCore implements Driver {
 				// the real driver will intercept the call before p6 gets it.
 				// so, deregister the driver if nec.
 
-				className = (String) i.next();
+				className = (String) iter.next();
 				deregister(className);
 				Driver realDriver = (Driver) P6Util.forName(className).newInstance();
 				if (P6SpyOptions.getDeregisterDrivers()) {
@@ -269,14 +268,34 @@ public abstract class P6SpyDriverCore implements Driver {
 
 				P6LogQuery.logDebug("Registered driver: " + className + ", realdriver: " + realDriver);
 			}
+		} catch (Exception e) {
+			StringBuffer err = new StringBuffer();
+			err.append("Error registering driver [");
+			err.append(className);
+			err.append("]\nCaused By: ");
+			err.append(e.toString());
+			P6LogQuery.logError(err.toString());
+			throw new P6DriverNotFoundError(err.toString());
+		}
 
-			// instantiate the factories, if nec.
+	}
+
+	static void registerAllFactories(List<String> modules, boolean hasModules) {
+		Iterator<String> iter = modules.iterator();
+		String className = "no class";
+
+		//now register the core options file with the reloader
+		P6SpyProperties properties = new P6SpyProperties();
+		P6SpyOptions coreOptions = new P6SpyOptions();
+		OptionReloader.add(coreOptions, properties);
+
+		try {
 			if (hasModules) {
 				factories = new ArrayList<P6Factory>();
-				classType = "factory";
-				i = modules.iterator();
-				while (i.hasNext()) {
-					className = (String) i.next();
+
+				iter = modules.iterator();
+				while (iter.hasNext()) {
+					className = (String) iter.next();
 					P6Factory factory = (P6Factory) P6Util.forName(className).newInstance();
 					factories.add(factory);
 
@@ -288,17 +307,14 @@ public abstract class P6SpyDriverCore implements Driver {
 					P6LogQuery.logDebug("Registered factory: " + className + " with options: " + options);
 				}
 			}
-
-			initialized = true;
-
-			for (Enumeration<Driver> e = DriverManager.getDrivers(); e.hasMoreElements();) {
-				P6LogQuery.logDebug("Driver manager reporting driver registered: " + e.nextElement());
-			}
-
 		} catch (Exception e) {
-			String err = "Error registering " + classType + "  [" + className + "]\nCaused By: " + e.toString();
-			P6LogQuery.logError(err);
-			throw new P6DriverNotFoundError(err);
+			StringBuffer err = new StringBuffer();
+			err.append("Error registering factory [");
+			err.append(className);
+			err.append("]\nCaused By: ");
+			err.append(e.toString());
+			P6LogQuery.logError(err.toString());
+			throw new P6DriverNotFoundError(err.toString());
 		}
 
 	}
@@ -330,12 +346,12 @@ public abstract class P6SpyDriverCore implements Driver {
 					P6LogQuery.logInfo("deregistering driver " + driver.getClass().getName());
 					DriverManager.deregisterDriver(driver);
 				} else {
-					P6LogQuery
-							.logError("driver "
-									+ driver.getClass().getName()
-									+ " is a real driver in spy.properties, but it has been loaded before p6spy.  " +
-									"p6spy will not wrap these connections.  Either prevent the driver from loading, " +
-									"or try setting 'deregisterdrivers' to true in spy.properties");
+					StringBuffer error = new StringBuffer(100);
+					error.append("driver").append(driver.getClass().getName());
+					error.append(" is a real driver in spy.properties, but it has been loaded before p6spy.  ");
+					error.append("p6spy will not wrap these connections.  Either prevent the driver from loading, ");
+					error.append("or try setting 'deregisterdrivers' to true in spy.properties");
+					P6LogQuery.logError(error.toString());
 				}
 			}
 		}

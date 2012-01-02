@@ -66,23 +66,24 @@
 
 package com.p6spy.engine.sample;
 
-import com.p6spy.engine.spy.*;
-import java.sql.*;
+import java.sql.SQLException;
+
+import com.p6spy.engine.spy.P6SpyDriverCore;
 
 public class P6SampleDriver extends P6SpyDriverCore {
-    
-    // implement an interface for modules
-    
-    static {
-        initMethod();
-    }
-    
-    public static void initMethod() {
-        P6SpyDriverCore.initMethod(P6SampleDriver.class.getName());
-    }
-    
-    public P6SampleDriver() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        super(P6SampleDriver.class.getName(),new P6SampleFactory());
-    }
-    
+
+	// implement an interface for modules
+
+	static {
+		initMethod();
+	}
+
+	public static void initMethod() {
+		P6SpyDriverCore.initMethod(P6SampleDriver.class.getName());
+	}
+
+	public P6SampleDriver() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+		super(P6SampleDriver.class.getName(), new P6SampleFactory());
+	}
+
 }

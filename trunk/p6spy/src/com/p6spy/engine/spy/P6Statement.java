@@ -129,193 +129,192 @@
 
 package com.p6spy.engine.spy;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class P6Statement extends P6Base implements Statement {
-    
-    protected Statement passthru;
-    protected P6Connection connection;
-    protected String statementQuery;
-    
-    public P6Statement(P6Factory factory, Statement statement, P6Connection conn) {
-	setP6Factory(factory);
-        this.passthru = statement;
-        this.connection = conn;
-        this.statementQuery = "";
-    }
-    
-    public void close() throws java.sql.SQLException {
-        passthru.close();
-    }
-    
-    public boolean execute(String p0) throws java.sql.SQLException {
-        return passthru.execute(p0);
-    }
-    
-    // Bug 161:  this method, unlike getResultSet(), should  never return null
-    public ResultSet executeQuery(String p0) throws java.sql.SQLException {
-        return (getP6Factory().getResultSet(passthru.executeQuery(p0), this, "", p0));
-    }
-    
-    public int executeUpdate(String p0) throws java.sql.SQLException {
-        return(passthru.executeUpdate(p0));
-    }
-    
-    public int getMaxFieldSize() throws java.sql.SQLException {
-        return(passthru.getMaxFieldSize());
-    }
-    
-    public void setMaxFieldSize(int p0) throws java.sql.SQLException {
-        passthru.setMaxFieldSize(p0);
-    }
-    
-    public int getMaxRows() throws java.sql.SQLException {
-        return(passthru.getMaxRows());
-    }
-    
-    public void setMaxRows(int p0) throws java.sql.SQLException {
-        passthru.setMaxRows(p0);
-    }
-    
-    public void setEscapeProcessing(boolean p0) throws java.sql.SQLException {
-        passthru.setEscapeProcessing(p0);
-    }
-    
-    public int getQueryTimeout() throws java.sql.SQLException {
-        return(passthru.getQueryTimeout());
-    }
-    
-    public void setQueryTimeout(int p0) throws java.sql.SQLException {
-        passthru.setQueryTimeout(p0);
-    }
-    
-    public void cancel() throws java.sql.SQLException {
-        passthru.cancel();
-    }
-    
-    public java.sql.SQLWarning getWarnings() throws java.sql.SQLException {
-        return(passthru.getWarnings());
-    }
-    
-    public void clearWarnings() throws java.sql.SQLException {
-        passthru.clearWarnings();
-    }
-    
-    public void setCursorName(String p0) throws java.sql.SQLException {
-        passthru.setCursorName(p0);
-    }
-    
-    // bug 161: getResultSet() should return null if this is an update
-    // count or there are not more result sets
-    public java.sql.ResultSet getResultSet() throws java.sql.SQLException {
-	ResultSet rs = passthru.getResultSet();
-        return (rs == null)  ? null : getP6Factory().getResultSet(rs, this, "", statementQuery);
-    }
-    
-    public int getUpdateCount() throws java.sql.SQLException {
-        return(passthru.getUpdateCount());
-    }
-    
-    public boolean getMoreResults() throws java.sql.SQLException {
-        return(passthru.getMoreResults());
-    }
-    
-    public void setFetchDirection(int p0) throws java.sql.SQLException {
-        passthru.setFetchDirection(p0);
-    }
-    
-    public int getFetchDirection() throws java.sql.SQLException {
-        return(passthru.getFetchDirection());
-    }
-    
-    public void setFetchSize(int p0) throws java.sql.SQLException {
-        passthru.setFetchSize(p0);
-    }
-    
-    public int getFetchSize() throws java.sql.SQLException {
-        return(passthru.getFetchSize());
-    }
-    
-    public int getResultSetConcurrency() throws java.sql.SQLException {
-        return(passthru.getResultSetConcurrency());
-    }
-    
-    public int getResultSetType() throws java.sql.SQLException {
-        return(passthru.getResultSetType());
-    }
-    
-    public void addBatch(String p0) throws java.sql.SQLException {
-        passthru.addBatch(p0);
-    }
-    
-    public void clearBatch() throws java.sql.SQLException {
-        passthru.clearBatch();
-    }
-    
-    public int[] executeBatch() throws java.sql.SQLException {
-        return(passthru.executeBatch());
-    }
-    
-    // returns the p6connection
-    public java.sql.Connection getConnection() throws java.sql.SQLException {
-        return connection;
-    }
-    
-    // Since JDK 1.4
-    public boolean getMoreResults(int p0) throws java.sql.SQLException {
-        return(passthru.getMoreResults(p0));
-    }
-    
-    // Since JDK 1.4
-    public java.sql.ResultSet getGeneratedKeys() throws java.sql.SQLException {
-        return(passthru.getGeneratedKeys());
-    }
 
-    // Since JDK 1.4
-    public int executeUpdate(String p0, int p1) throws java.sql.SQLException {
-        return(passthru.executeUpdate(p0, p1));
-    }
+	protected Statement passthru;
+	protected P6Connection connection;
+	protected String statementQuery;
 
-    // Since JDK 1.4
-    public int executeUpdate(String p0, int p1[]) throws java.sql.SQLException {
-        return(passthru.executeUpdate(p0, p1));
-    }
+	public P6Statement(P6Factory factory, Statement statement, P6Connection conn) {
+		setP6Factory(factory);
+		this.passthru = statement;
+		this.connection = conn;
+		this.statementQuery = "";
+	}
 
-    // Since JDK 1.4
-    public int executeUpdate(String p0, String p1[]) throws java.sql.SQLException {
-        return(passthru.executeUpdate(p0, p1));
-    }
+	public void close() throws java.sql.SQLException {
+		passthru.close();
+	}
 
-    // Since JDK 1.4
-    public boolean execute(String p0, int p1) throws java.sql.SQLException {
-        return(passthru.execute(p0, p1));
-    }
+	public boolean execute(String p0) throws java.sql.SQLException {
+		return passthru.execute(p0);
+	}
 
-    // Since JDK 1.4
-    public boolean execute(String p0, int p1[]) throws java.sql.SQLException {
-        return(passthru.execute(p0, p1));
-    }
+	// Bug 161:  this method, unlike getResultSet(), should  never return null
+	public ResultSet executeQuery(String p0) throws java.sql.SQLException {
+		return (getP6Factory().getResultSet(passthru.executeQuery(p0), this, "", p0));
+	}
 
-    // Since JDK 1.4
-    public boolean execute(String p0, String p1[]) throws java.sql.SQLException {
-        return(passthru.execute(p0, p1));
-    }
+	public int executeUpdate(String p0) throws java.sql.SQLException {
+		return (passthru.executeUpdate(p0));
+	}
 
-    // Since JDK 1.4
-    public int getResultSetHoldability() throws java.sql.SQLException {
-        return(passthru.getResultSetHoldability());
-    }
+	public int getMaxFieldSize() throws java.sql.SQLException {
+		return (passthru.getMaxFieldSize());
+	}
 
-    /**
-     * Returns the underlying JDBC object (in this case, a
-     * java.sql.Statement)
-     * @return the wrapped JDBC object 
-     */
-    public Statement getJDBC() {
-	Statement wrapped = (passthru instanceof P6Statement) ?
-	    ((P6Statement) passthru).getJDBC() :
-	    passthru;
+	public void setMaxFieldSize(int p0) throws java.sql.SQLException {
+		passthru.setMaxFieldSize(p0);
+	}
 
-	return wrapped;
-    }
+	public int getMaxRows() throws java.sql.SQLException {
+		return (passthru.getMaxRows());
+	}
+
+	public void setMaxRows(int p0) throws java.sql.SQLException {
+		passthru.setMaxRows(p0);
+	}
+
+	public void setEscapeProcessing(boolean p0) throws java.sql.SQLException {
+		passthru.setEscapeProcessing(p0);
+	}
+
+	public int getQueryTimeout() throws java.sql.SQLException {
+		return (passthru.getQueryTimeout());
+	}
+
+	public void setQueryTimeout(int p0) throws java.sql.SQLException {
+		passthru.setQueryTimeout(p0);
+	}
+
+	public void cancel() throws java.sql.SQLException {
+		passthru.cancel();
+	}
+
+	public java.sql.SQLWarning getWarnings() throws java.sql.SQLException {
+		return (passthru.getWarnings());
+	}
+
+	public void clearWarnings() throws java.sql.SQLException {
+		passthru.clearWarnings();
+	}
+
+	public void setCursorName(String p0) throws java.sql.SQLException {
+		passthru.setCursorName(p0);
+	}
+
+	// bug 161: getResultSet() should return null if this is an update
+	// count or there are not more result sets
+	public java.sql.ResultSet getResultSet() throws java.sql.SQLException {
+		ResultSet rs = passthru.getResultSet();
+		return (rs == null) ? null : getP6Factory().getResultSet(rs, this, "", statementQuery);
+	}
+
+	public int getUpdateCount() throws java.sql.SQLException {
+		return (passthru.getUpdateCount());
+	}
+
+	public boolean getMoreResults() throws java.sql.SQLException {
+		return (passthru.getMoreResults());
+	}
+
+	public void setFetchDirection(int p0) throws java.sql.SQLException {
+		passthru.setFetchDirection(p0);
+	}
+
+	public int getFetchDirection() throws java.sql.SQLException {
+		return (passthru.getFetchDirection());
+	}
+
+	public void setFetchSize(int p0) throws java.sql.SQLException {
+		passthru.setFetchSize(p0);
+	}
+
+	public int getFetchSize() throws java.sql.SQLException {
+		return (passthru.getFetchSize());
+	}
+
+	public int getResultSetConcurrency() throws java.sql.SQLException {
+		return (passthru.getResultSetConcurrency());
+	}
+
+	public int getResultSetType() throws java.sql.SQLException {
+		return (passthru.getResultSetType());
+	}
+
+	public void addBatch(String p0) throws java.sql.SQLException {
+		passthru.addBatch(p0);
+	}
+
+	public void clearBatch() throws java.sql.SQLException {
+		passthru.clearBatch();
+	}
+
+	public int[] executeBatch() throws java.sql.SQLException {
+		return (passthru.executeBatch());
+	}
+
+	// returns the p6connection
+	public java.sql.Connection getConnection() throws java.sql.SQLException {
+		return connection;
+	}
+
+	// Since JDK 1.4
+	public boolean getMoreResults(int p0) throws java.sql.SQLException {
+		return (passthru.getMoreResults(p0));
+	}
+
+	// Since JDK 1.4
+	public java.sql.ResultSet getGeneratedKeys() throws java.sql.SQLException {
+		return (passthru.getGeneratedKeys());
+	}
+
+	// Since JDK 1.4
+	public int executeUpdate(String p0, int p1) throws java.sql.SQLException {
+		return (passthru.executeUpdate(p0, p1));
+	}
+
+	// Since JDK 1.4
+	public int executeUpdate(String p0, int p1[]) throws java.sql.SQLException {
+		return (passthru.executeUpdate(p0, p1));
+	}
+
+	// Since JDK 1.4
+	public int executeUpdate(String p0, String p1[]) throws java.sql.SQLException {
+		return (passthru.executeUpdate(p0, p1));
+	}
+
+	// Since JDK 1.4
+	public boolean execute(String p0, int p1) throws java.sql.SQLException {
+		return (passthru.execute(p0, p1));
+	}
+
+	// Since JDK 1.4
+	public boolean execute(String p0, int p1[]) throws java.sql.SQLException {
+		return (passthru.execute(p0, p1));
+	}
+
+	// Since JDK 1.4
+	public boolean execute(String p0, String p1[]) throws java.sql.SQLException {
+		return (passthru.execute(p0, p1));
+	}
+
+	// Since JDK 1.4
+	public int getResultSetHoldability() throws java.sql.SQLException {
+		return (passthru.getResultSetHoldability());
+	}
+
+	/**
+	 * Returns the underlying JDBC object (in this case, a
+	 * java.sql.Statement)
+	 * @return the wrapped JDBC object 
+	 */
+	public Statement getJDBC() {
+		Statement wrapped = (passthru instanceof P6Statement) ? ((P6Statement) passthru).getJDBC() : passthru;
+
+		return wrapped;
+	}
 }

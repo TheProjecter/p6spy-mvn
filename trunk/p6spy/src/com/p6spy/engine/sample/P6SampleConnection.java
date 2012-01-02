@@ -59,21 +59,24 @@
  * SUCH DAMAGE.
  */
 
-
 package com.p6spy.engine.sample;
 
-import com.p6spy.engine.spy.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-public class P6SampleConnection extends P6Connection implements java.sql.Connection {
-    protected int count = 0;    
-    
-    public P6SampleConnection(P6Factory factory, Connection conn) throws SQLException {
-        super(factory, conn);
-    }
-    
-    public void commit() throws SQLException {
-	super.commit();
-	System.out.println("This connection has committed " + (++count) + " times");
-    }
+import com.p6spy.engine.spy.P6Connection;
+import com.p6spy.engine.spy.P6Factory;
+
+public class P6SampleConnection extends P6Connection implements Connection {
+
+	protected int count = 0;
+
+	public P6SampleConnection(P6Factory factory, Connection conn) throws SQLException {
+		super(factory, conn);
+	}
+
+	public void commit() throws SQLException {
+		super.commit();
+		System.out.println("This connection has committed " + (++count) + " times");
+	}
 }

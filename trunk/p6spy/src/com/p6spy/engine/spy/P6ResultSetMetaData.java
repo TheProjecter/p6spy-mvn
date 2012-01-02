@@ -88,113 +88,111 @@
 
 package com.p6spy.engine.spy;
 
-import java.sql.*;
+import java.sql.ResultSetMetaData;
 
-public class P6ResultSetMetaData extends P6Base implements java.sql.ResultSetMetaData{
-    
-    
-    protected ResultSetMetaData passthru;
-    
-    public P6ResultSetMetaData(P6Factory factory, ResultSetMetaData resultSetMetaData) {
-	setP6Factory(factory);
-        this.passthru = resultSetMetaData;
-    }
-    
-    public String getCatalogName(int param) throws java.sql.SQLException {
-        return passthru.getCatalogName(param);
-    }
-    
-    public String getColumnClassName(int param) throws java.sql.SQLException {
-        return passthru.getColumnClassName(param);
-    }
-    
-    public int getColumnCount() throws java.sql.SQLException {
-        return passthru.getColumnCount();
-    }
-    
-    public int getColumnDisplaySize(int param) throws java.sql.SQLException {
-        return passthru.getColumnDisplaySize(param);
-    }
-    
-    public String getColumnLabel(int param) throws java.sql.SQLException {
-        return passthru.getColumnLabel(param);
-    }
-    
-    public String getColumnName(int param) throws java.sql.SQLException {
-        return passthru.getColumnName(param);
-    }
-    
-    public int getColumnType(int param) throws java.sql.SQLException {
-        return passthru.getColumnType(param);
-    }
-    
-    public String getColumnTypeName(int param) throws java.sql.SQLException {
-        return passthru.getColumnTypeName(param);
-    }
-    
-    public int getPrecision(int param) throws java.sql.SQLException {
-        return passthru.getPrecision(param);
-    }
-    
-    public int getScale(int param) throws java.sql.SQLException {
-        return passthru.getScale(param);
-    }
-    
-    public String getSchemaName(int param) throws java.sql.SQLException {
-        return passthru.getSchemaName(param);
-    }
-    
-    public String getTableName(int param) throws java.sql.SQLException {
-        return passthru.getTableName(param);
-    }
-    
-    public boolean isAutoIncrement(int param) throws java.sql.SQLException {
-        return passthru.isAutoIncrement(param);
-    }
-    
-    public boolean isCaseSensitive(int param) throws java.sql.SQLException {
-        return passthru.isCaseSensitive(param);
-    }
-    
-    public boolean isCurrency(int param) throws java.sql.SQLException {
-        return passthru.isCurrency(param);
-    }
-    
-    public boolean isDefinitelyWritable(int param) throws java.sql.SQLException {
-        return passthru.isDefinitelyWritable(param);
-    }
-    
-    public int isNullable(int param) throws java.sql.SQLException {
-        return passthru.isNullable(param);
-    }
-    
-    public boolean isReadOnly(int param) throws java.sql.SQLException {
-        return passthru.isReadOnly(param);
-    }
-    
-    public boolean isSearchable(int param) throws java.sql.SQLException {
-        return passthru.isSearchable(param);
-    }
-    
-    public boolean isSigned(int param) throws java.sql.SQLException {
-        return passthru.isSigned(param);
-    }
-    
-    public boolean isWritable(int param) throws java.sql.SQLException {
-        return passthru.isWritable(param);
-    }
+public class P6ResultSetMetaData extends P6Base implements java.sql.ResultSetMetaData {
 
-    /**
-     * Returns the underlying JDBC object (in this case, a
-     * java.sql.ResultSetMetaData)
-     * @return the wrapped JDBC object 
-     */
-    public ResultSetMetaData getJDBC() {
-	ResultSetMetaData wrapped = (passthru instanceof P6ResultSetMetaData) ?
-	    ((P6ResultSetMetaData) passthru).getJDBC() :
-	    passthru;
+	protected ResultSetMetaData passthru;
 
-	return wrapped;
-    }
-    
+	public P6ResultSetMetaData(P6Factory factory, ResultSetMetaData resultSetMetaData) {
+		setP6Factory(factory);
+		this.passthru = resultSetMetaData;
+	}
+
+	public String getCatalogName(int param) throws java.sql.SQLException {
+		return passthru.getCatalogName(param);
+	}
+
+	public String getColumnClassName(int param) throws java.sql.SQLException {
+		return passthru.getColumnClassName(param);
+	}
+
+	public int getColumnCount() throws java.sql.SQLException {
+		return passthru.getColumnCount();
+	}
+
+	public int getColumnDisplaySize(int param) throws java.sql.SQLException {
+		return passthru.getColumnDisplaySize(param);
+	}
+
+	public String getColumnLabel(int param) throws java.sql.SQLException {
+		return passthru.getColumnLabel(param);
+	}
+
+	public String getColumnName(int param) throws java.sql.SQLException {
+		return passthru.getColumnName(param);
+	}
+
+	public int getColumnType(int param) throws java.sql.SQLException {
+		return passthru.getColumnType(param);
+	}
+
+	public String getColumnTypeName(int param) throws java.sql.SQLException {
+		return passthru.getColumnTypeName(param);
+	}
+
+	public int getPrecision(int param) throws java.sql.SQLException {
+		return passthru.getPrecision(param);
+	}
+
+	public int getScale(int param) throws java.sql.SQLException {
+		return passthru.getScale(param);
+	}
+
+	public String getSchemaName(int param) throws java.sql.SQLException {
+		return passthru.getSchemaName(param);
+	}
+
+	public String getTableName(int param) throws java.sql.SQLException {
+		return passthru.getTableName(param);
+	}
+
+	public boolean isAutoIncrement(int param) throws java.sql.SQLException {
+		return passthru.isAutoIncrement(param);
+	}
+
+	public boolean isCaseSensitive(int param) throws java.sql.SQLException {
+		return passthru.isCaseSensitive(param);
+	}
+
+	public boolean isCurrency(int param) throws java.sql.SQLException {
+		return passthru.isCurrency(param);
+	}
+
+	public boolean isDefinitelyWritable(int param) throws java.sql.SQLException {
+		return passthru.isDefinitelyWritable(param);
+	}
+
+	public int isNullable(int param) throws java.sql.SQLException {
+		return passthru.isNullable(param);
+	}
+
+	public boolean isReadOnly(int param) throws java.sql.SQLException {
+		return passthru.isReadOnly(param);
+	}
+
+	public boolean isSearchable(int param) throws java.sql.SQLException {
+		return passthru.isSearchable(param);
+	}
+
+	public boolean isSigned(int param) throws java.sql.SQLException {
+		return passthru.isSigned(param);
+	}
+
+	public boolean isWritable(int param) throws java.sql.SQLException {
+		return passthru.isWritable(param);
+	}
+
+	/**
+	 * Returns the underlying JDBC object (in this case, a
+	 * java.sql.ResultSetMetaData)
+	 * @return the wrapped JDBC object 
+	 */
+	public ResultSetMetaData getJDBC() {
+		ResultSetMetaData wrapped =
+				(passthru instanceof P6ResultSetMetaData) ? ((P6ResultSetMetaData) passthru).getJDBC() : passthru;
+
+		return wrapped;
+	}
+
 }

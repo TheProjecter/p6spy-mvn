@@ -95,34 +95,34 @@
 
 package com.p6spy.engine.spy;
 
-import java.sql.*;
-import javax.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
+import javax.sql.ConnectionEventListener;
+import javax.sql.PooledConnection;
 
 public class P6PooledConnection implements PooledConnection {
-    
-    protected PooledConnection passthru;
 
-    public P6PooledConnection(PooledConnection connection) {
-      passthru = connection;
-    }
+	protected PooledConnection passthru;
 
+	public P6PooledConnection(PooledConnection connection) {
+		passthru = connection;
+	}
 
-    public Connection getConnection() throws SQLException {
-      return P6SpyDriverCore.wrapConnection(passthru.getConnection());
-    }
+	public Connection getConnection() throws SQLException {
+		return P6SpyDriverCore.wrapConnection(passthru.getConnection());
+	}
 
-    public void close() throws SQLException  {
-      passthru.close();
-    }
+	public void close() throws SQLException {
+		passthru.close();
+	}
 
-    public void addConnectionEventListener(ConnectionEventListener eventTarget) {
-      passthru.addConnectionEventListener(eventTarget);
-    }
+	public void addConnectionEventListener(ConnectionEventListener eventTarget) {
+		passthru.addConnectionEventListener(eventTarget);
+	}
 
-    
-    public void removeConnectionEventListener(ConnectionEventListener eventTarget) {
-      passthru.removeConnectionEventListener(eventTarget);
-    }
+	public void removeConnectionEventListener(ConnectionEventListener eventTarget) {
+		passthru.removeConnectionEventListener(eventTarget);
+	}
 
 }
