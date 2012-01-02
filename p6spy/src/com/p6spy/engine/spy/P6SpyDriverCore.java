@@ -217,6 +217,11 @@ public abstract class P6SpyDriverCore implements Driver {
 		}
 
 		foundSpyProperties = true;
+		//now register the core options file with the reloader
+		P6SpyProperties properties = new P6SpyProperties();
+		P6SpyOptions coreOptions = new P6SpyOptions();
+		OptionReloader.add(coreOptions, properties);
+
 		List<String> modules = P6SpyOptions.allModules();
 		boolean hasModules = modules.size() > 0;
 
@@ -224,7 +229,7 @@ public abstract class P6SpyDriverCore implements Driver {
 		registerAllDrivers(hasModules);
 
 		// instantiate the factories, if nec.
-		registerAllFactories(modules, hasModules);
+		registerAllFactories(modules, properties, hasModules);
 
 		initialized = true;
 		for (Enumeration<Driver> e = DriverManager.getDrivers(); e.hasMoreElements();) {
@@ -280,14 +285,9 @@ public abstract class P6SpyDriverCore implements Driver {
 
 	}
 
-	static void registerAllFactories(List<String> modules, boolean hasModules) {
+	static void registerAllFactories(List<String> modules, P6SpyProperties properties, boolean hasModules) {
 		Iterator<String> iter = modules.iterator();
 		String className = "no class";
-
-		//now register the core options file with the reloader
-		P6SpyProperties properties = new P6SpyProperties();
-		P6SpyOptions coreOptions = new P6SpyOptions();
-		OptionReloader.add(coreOptions, properties);
 
 		try {
 			if (hasModules) {
