@@ -18,7 +18,7 @@
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
-		<testOutputDirectory>target/classes</testOutputDirectory>
+		<testOutputDirectory>target/test-classes</testOutputDirectory>
 		<directory>target</directory>
 		<resources>
 			<resource>
