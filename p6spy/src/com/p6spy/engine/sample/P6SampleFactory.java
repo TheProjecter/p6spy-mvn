@@ -88,16 +88,19 @@
 
 package com.p6spy.engine.sample;
 
-import java.sql.*;
-import com.p6spy.engine.spy.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.p6spy.engine.spy.P6CoreFactory;
+import com.p6spy.engine.spy.P6Factory;
 
 public class P6SampleFactory extends P6CoreFactory implements P6Factory {
-    
-    public P6SampleFactory() {
-    }
-    
-    public Connection getConnection(Connection conn) throws SQLException {
-        return (new P6SampleConnection(this, conn));
-    }
+
+	public P6SampleFactory() {
+	}
+
+	public Connection getConnection(Connection conn) throws SQLException {
+		return (new P6SampleConnection(this, conn));
+	}
 
 }

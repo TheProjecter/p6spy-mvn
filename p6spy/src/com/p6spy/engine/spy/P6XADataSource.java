@@ -72,39 +72,43 @@
 
 package com.p6spy.engine.spy;
 
-import java.sql.*;
-import javax.sql.*;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+import javax.sql.XAConnection;
+import javax.sql.XADataSource;
 
 public class P6XADataSource extends P6DataSource implements XADataSource {
 
-    public P6XADataSource() {
-      super();
-    }
+	private static final long serialVersionUID = 4752688652877771526L;
 
-    public P6XADataSource(DataSource ds) {
-      super(ds);
-    }
+	public P6XADataSource() {
+		super();
+	}
 
-    public XAConnection getXAConnection() throws SQLException {
-      if (rds == null) {
-	bindDataSource();
-      }
+	public P6XADataSource(DataSource ds) {
+		super(ds);
+	}
 
-      XAConnection xac = ((XADataSource) rds).getXAConnection();
-      P6XAConnection p6xac = new P6XAConnection(xac);
-      return p6xac;
-    }
-    
-    
-    public XAConnection getXAConnection(String s, String s1) throws SQLException {
+	public XAConnection getXAConnection() throws SQLException {
+		if (rds == null) {
+			bindDataSource();
+		}
 
-      if (rds == null) {
-	bindDataSource();
-      }
+		XAConnection xac = ((XADataSource) rds).getXAConnection();
+		P6XAConnection p6xac = new P6XAConnection(xac);
+		return p6xac;
+	}
 
-      XAConnection xac = ((XADataSource) rds).getXAConnection(s, s1);
-      P6XAConnection p6xac = new P6XAConnection(xac);
-      return p6xac;
-    }
+	public XAConnection getXAConnection(String s, String s1) throws SQLException {
+
+		if (rds == null) {
+			bindDataSource();
+		}
+
+		XAConnection xac = ((XADataSource) rds).getXAConnection(s, s1);
+		P6XAConnection p6xac = new P6XAConnection(xac);
+		return p6xac;
+	}
 
 }

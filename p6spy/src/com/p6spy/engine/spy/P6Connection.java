@@ -121,193 +121,198 @@
 
 package com.p6spy.engine.spy;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
+import java.sql.Savepoint;
+import java.sql.Statement;
+import java.util.Map;
 
 public class P6Connection extends P6Base implements java.sql.Connection {
 
-        
-    protected static int counter=0;
-    protected int id = counter++;
-    protected Connection passthru;
-    
-    public P6Connection(P6Factory factory, Connection conn) throws SQLException {
-	setP6Factory(factory);
-        this.passthru = conn;
-    }
-    
-    public void setReadOnly(boolean p0) throws SQLException {
-        passthru.setReadOnly(p0);
-    }
-    
-    public void close() throws SQLException {
-        passthru.close();
-    }
-    
-    public int getId() {
-        return this.id;
-    }
-    
-    public boolean isClosed() throws SQLException {
-        return(passthru.isClosed());
-    }
-    
-    public boolean isReadOnly() throws SQLException {
-        return(passthru.isReadOnly());
-    }
-    
-    public Statement createStatement() throws SQLException {
-        Statement statement = getP6Factory().getStatement(passthru.createStatement(), this);
-        return(statement);
-    }
-    
-    public Statement createStatement(int p0, int p1) throws SQLException {
-        Statement statement = getP6Factory().getStatement(passthru.createStatement(p0,p1), this);
-        return(statement);
-    }
-    
-    public PreparedStatement prepareStatement(String p0) throws SQLException {
-        return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0), this, p0));
-    }
-    
-    public PreparedStatement prepareStatement(String p0, int p1, int p2) throws SQLException {
-        return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0,p1,p2), this, p0));
-    }
-    
-    public CallableStatement prepareCall(String p0) throws SQLException {
-        return (getP6Factory().getCallableStatement(passthru.prepareCall(p0), this, p0));
-    }
-    
-    public CallableStatement prepareCall(String p0, int p1, int p2) throws SQLException {
-        return (getP6Factory().getCallableStatement(passthru.prepareCall(p0,p1,p2), this, p0));
-    }
-    
-    public String nativeSQL(String p0) throws SQLException {
-        return(passthru.nativeSQL(p0));
-    }
-    
-    public void setAutoCommit(boolean p0) throws SQLException {
-        passthru.setAutoCommit(p0);
-    }
-    
-    public boolean getAutoCommit() throws SQLException {
-        return(passthru.getAutoCommit());
-    }
-    
-    public void commit() throws SQLException {
-        passthru.commit();
-    }
-    
-    public void rollback() throws SQLException {
-        passthru.rollback();
-    }
-    
-    public DatabaseMetaData getMetaData() throws SQLException {
-        return getP6Factory().getDatabaseMetaData(passthru.getMetaData(), this);
-    }
-    
-    public void setCatalog(String p0) throws SQLException {
-        passthru.setCatalog(p0);
-    }
-    
-    public String getCatalog() throws SQLException {
-        return(passthru.getCatalog());
-    }
-    
-    public void setTransactionIsolation(int p0) throws SQLException {
-        passthru.setTransactionIsolation(p0);
-    }
-    
-    public int getTransactionIsolation() throws SQLException {
-        return(passthru.getTransactionIsolation());
-    }
-    
-    public SQLWarning getWarnings() throws SQLException {
-        return(passthru.getWarnings());
-    }
-    
-    public void clearWarnings() throws SQLException {
-        passthru.clearWarnings();
-    }
-    
-    public java.util.Map getTypeMap() throws SQLException {
-        return(passthru.getTypeMap());
-    }
-    
-    public void setTypeMap(java.util.Map p0) throws SQLException {
-        passthru.setTypeMap(p0);
-    }
+	protected static int counter = 0;
+	protected int id = counter++;
+	protected Connection passthru;
 
-    // Since JDK 1.4
-    public void setHoldability(int p0) throws SQLException {
-        passthru.setHoldability(p0);
-    }
+	public P6Connection(P6Factory factory, Connection conn) throws SQLException {
+		setP6Factory(factory);
+		this.passthru = conn;
+	}
 
-    // Since JDK 1.4
-    public int getHoldability() throws SQLException {
-        return(passthru.getHoldability());
-    }
+	public void setReadOnly(boolean p0) throws SQLException {
+		passthru.setReadOnly(p0);
+	}
 
-    // Since JDK 1.4
-    public Savepoint setSavepoint() throws SQLException {
-        return(passthru.setSavepoint());
-    }
+	public void close() throws SQLException {
+		passthru.close();
+	}
 
-    // Since JDK 1.4
-    public Savepoint setSavepoint(String p0) throws SQLException {
-        return(passthru.setSavepoint(p0));
-    }
+	public int getId() {
+		return this.id;
+	}
 
-    // Since JDK 1.4
-    public void rollback(Savepoint p0) throws SQLException {
-        passthru.rollback(p0);
-    }
+	public boolean isClosed() throws SQLException {
+		return (passthru.isClosed());
+	}
 
-    // Since JDK 1.4
-    public void releaseSavepoint(Savepoint p0) throws SQLException {
-        passthru.releaseSavepoint(p0);
-    }
+	public boolean isReadOnly() throws SQLException {
+		return (passthru.isReadOnly());
+	}
 
-    // Since JDK 1.4
-    public Statement createStatement(int p0, int p1, int p2) throws SQLException {
-        return getP6Factory().getStatement(passthru.createStatement(p0, p1, p2), this);
-    }
+	public Statement createStatement() throws SQLException {
+		Statement statement = getP6Factory().getStatement(passthru.createStatement(), this);
+		return (statement);
+	}
 
-    // Since JDK 1.4
-    public PreparedStatement prepareStatement(String p0, int p1, int p2, int p3) throws SQLException {
-        return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1, p2, p3), this, p0));
-    }
+	public Statement createStatement(int p0, int p1) throws SQLException {
+		Statement statement = getP6Factory().getStatement(passthru.createStatement(p0, p1), this);
+		return (statement);
+	}
 
-    // Since JDK 1.4
-    public CallableStatement prepareCall(String p0, int p1, int p2, int p3) throws SQLException {
-        return (getP6Factory().getCallableStatement(passthru.prepareCall(p0, p1, p2, p3), this, p0));
-    }
+	public PreparedStatement prepareStatement(String p0) throws SQLException {
+		return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0), this, p0));
+	}
 
-    // Since JDK 1.4
-    public PreparedStatement prepareStatement(String p0, int p1) throws SQLException {
-        return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1), this, p0));
-    }
+	public PreparedStatement prepareStatement(String p0, int p1, int p2) throws SQLException {
+		return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1, p2), this, p0));
+	}
 
-    // Since JDK 1.4
-    public PreparedStatement prepareStatement(String p0, int p1[]) throws SQLException {
-        return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1), this, p0));
-    }
+	public CallableStatement prepareCall(String p0) throws SQLException {
+		return (getP6Factory().getCallableStatement(passthru.prepareCall(p0), this, p0));
+	}
 
-    // Since JDK 1.4
-    public PreparedStatement prepareStatement(String p0, String p1[]) throws SQLException {
-        return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1), this, p0));
-    }
+	public CallableStatement prepareCall(String p0, int p1, int p2) throws SQLException {
+		return (getP6Factory().getCallableStatement(passthru.prepareCall(p0, p1, p2), this, p0));
+	}
 
-    /**
-     * Returns the underlying JDBC object (in this case, a
-     * java.sql.Connection)
-     * @return the wrapped JDBC object 
-     */
-    public Connection getJDBC() {
-	Connection wrapped = (passthru instanceof P6Connection) ?
-	    ((P6Connection) passthru).getJDBC() :
-	    passthru;
+	public String nativeSQL(String p0) throws SQLException {
+		return (passthru.nativeSQL(p0));
+	}
 
-	return wrapped;
-    }
+	public void setAutoCommit(boolean p0) throws SQLException {
+		passthru.setAutoCommit(p0);
+	}
+
+	public boolean getAutoCommit() throws SQLException {
+		return (passthru.getAutoCommit());
+	}
+
+	public void commit() throws SQLException {
+		passthru.commit();
+	}
+
+	public void rollback() throws SQLException {
+		passthru.rollback();
+	}
+
+	public DatabaseMetaData getMetaData() throws SQLException {
+		return getP6Factory().getDatabaseMetaData(passthru.getMetaData(), this);
+	}
+
+	public void setCatalog(String p0) throws SQLException {
+		passthru.setCatalog(p0);
+	}
+
+	public String getCatalog() throws SQLException {
+		return (passthru.getCatalog());
+	}
+
+	public void setTransactionIsolation(int p0) throws SQLException {
+		passthru.setTransactionIsolation(p0);
+	}
+
+	public int getTransactionIsolation() throws SQLException {
+		return (passthru.getTransactionIsolation());
+	}
+
+	public SQLWarning getWarnings() throws SQLException {
+		return (passthru.getWarnings());
+	}
+
+	public void clearWarnings() throws SQLException {
+		passthru.clearWarnings();
+	}
+
+	public Map<String, Class<?>> getTypeMap() throws SQLException {
+		return (passthru.getTypeMap());
+	}
+
+	public void setTypeMap(Map<String, Class<?>> p0) throws SQLException {
+		passthru.setTypeMap(p0);
+	}
+
+	// Since JDK 1.4
+	public void setHoldability(int p0) throws SQLException {
+		passthru.setHoldability(p0);
+	}
+
+	// Since JDK 1.4
+	public int getHoldability() throws SQLException {
+		return (passthru.getHoldability());
+	}
+
+	// Since JDK 1.4
+	public Savepoint setSavepoint() throws SQLException {
+		return (passthru.setSavepoint());
+	}
+
+	// Since JDK 1.4
+	public Savepoint setSavepoint(String p0) throws SQLException {
+		return (passthru.setSavepoint(p0));
+	}
+
+	// Since JDK 1.4
+	public void rollback(Savepoint p0) throws SQLException {
+		passthru.rollback(p0);
+	}
+
+	// Since JDK 1.4
+	public void releaseSavepoint(Savepoint p0) throws SQLException {
+		passthru.releaseSavepoint(p0);
+	}
+
+	// Since JDK 1.4
+	public Statement createStatement(int p0, int p1, int p2) throws SQLException {
+		return getP6Factory().getStatement(passthru.createStatement(p0, p1, p2), this);
+	}
+
+	// Since JDK 1.4
+	public PreparedStatement prepareStatement(String p0, int p1, int p2, int p3) throws SQLException {
+		return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1, p2, p3), this, p0));
+	}
+
+	// Since JDK 1.4
+	public CallableStatement prepareCall(String p0, int p1, int p2, int p3) throws SQLException {
+		return (getP6Factory().getCallableStatement(passthru.prepareCall(p0, p1, p2, p3), this, p0));
+	}
+
+	// Since JDK 1.4
+	public PreparedStatement prepareStatement(String p0, int p1) throws SQLException {
+		return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1), this, p0));
+	}
+
+	// Since JDK 1.4
+	public PreparedStatement prepareStatement(String p0, int p1[]) throws SQLException {
+		return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1), this, p0));
+	}
+
+	// Since JDK 1.4
+	public PreparedStatement prepareStatement(String p0, String p1[]) throws SQLException {
+		return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1), this, p0));
+	}
+
+	/**
+	 * Returns the underlying JDBC object (in this case, a
+	 * java.sql.Connection)
+	 * @return the wrapped JDBC object 
+	 */
+	public Connection getJDBC() {
+		Connection wrapped = (passthru instanceof P6Connection) ? ((P6Connection) passthru).getJDBC() : passthru;
+
+		return wrapped;
+	}
 
 }

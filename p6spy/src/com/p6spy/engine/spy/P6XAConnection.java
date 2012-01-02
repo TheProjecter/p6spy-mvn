@@ -74,20 +74,20 @@
 
 package com.p6spy.engine.spy;
 
-import java.sql.*;
-import javax.sql.*;
+import java.sql.SQLException;
+
+import javax.sql.PooledConnection;
+import javax.sql.XAConnection;
 import javax.transaction.xa.XAResource;
 
-
 public class P6XAConnection extends P6PooledConnection implements XAConnection {
-    
-    public P6XAConnection(XAConnection connection) {
-      super((PooledConnection) connection);
-    }
 
+	public P6XAConnection(XAConnection connection) {
+		super((PooledConnection) connection);
+	}
 
-    public XAResource getXAResource() throws SQLException {
-      return ((XAConnection) passthru).getXAResource();
-    }
+	public XAResource getXAResource() throws SQLException {
+		return ((XAConnection) passthru).getXAResource();
+	}
 
 }

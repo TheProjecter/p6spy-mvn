@@ -66,26 +66,28 @@
 
 package com.p6spy.engine.spy;
 
-import java.sql.*;
-import java.io.*;
-import com.p6spy.engine.common.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.sql.SQLException;
+
+import com.p6spy.engine.common.P6LogQuery;
 
 public class P6SpyDriver3 extends P6SpyDriverCore {
-    
-    static {
-        initMethod();
-    }
-    
-    public static void initMethod() {
-        P6SpyDriverCore.initMethod(P6SpyDriver3.class.getName());
-    }
-    
-    public P6SpyDriver3() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        super(P6SpyDriver3.class.getName(), new P6CoreFactory());
-	Throwable t = new Throwable();
-	StringWriter sw = new StringWriter();
-	t.printStackTrace(new PrintWriter(sw));
-	P6LogQuery.logDebug("new spy driver: " + sw.toString());
-    }
-    
+
+	static {
+		initMethod();
+	}
+
+	public static void initMethod() {
+		P6SpyDriverCore.initMethod(P6SpyDriver3.class.getName());
+	}
+
+	public P6SpyDriver3() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+		super(P6SpyDriver3.class.getName(), new P6CoreFactory());
+		Throwable t = new Throwable();
+		StringWriter sw = new StringWriter();
+		t.printStackTrace(new PrintWriter(sw));
+		P6LogQuery.logDebug("new spy driver: " + sw.toString());
+	}
+
 }

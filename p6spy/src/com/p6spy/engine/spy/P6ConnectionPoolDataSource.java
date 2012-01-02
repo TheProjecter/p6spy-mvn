@@ -105,39 +105,43 @@
 
 package com.p6spy.engine.spy;
 
-import java.sql.*;
-import javax.sql.*;
+import java.sql.SQLException;
+
+import javax.sql.ConnectionPoolDataSource;
+import javax.sql.DataSource;
+import javax.sql.PooledConnection;
 
 public class P6ConnectionPoolDataSource extends P6DataSource implements ConnectionPoolDataSource {
 
-    public P6ConnectionPoolDataSource() {
-      super();
-    }
+	private static final long serialVersionUID = 3595317762522989065L;
 
-    public P6ConnectionPoolDataSource(DataSource ds) {
-      super(ds);
-    }
+	public P6ConnectionPoolDataSource() {
+		super();
+	}
 
-    public PooledConnection getPooledConnection() throws SQLException {
-      if (rds == null) {
-	bindDataSource();
-      }
+	public P6ConnectionPoolDataSource(DataSource ds) {
+		super(ds);
+	}
 
-      PooledConnection pc = ((ConnectionPoolDataSource) rds).getPooledConnection();
-      P6PooledConnection pooledConnection = new P6PooledConnection(pc);
-      return pooledConnection;
-    }
-    
-    
-    public PooledConnection getPooledConnection(String s, String s1) throws SQLException {
+	public PooledConnection getPooledConnection() throws SQLException {
+		if (rds == null) {
+			bindDataSource();
+		}
 
-      if (rds == null) {
-	bindDataSource();
-      }
+		PooledConnection pc = ((ConnectionPoolDataSource) rds).getPooledConnection();
+		P6PooledConnection pooledConnection = new P6PooledConnection(pc);
+		return pooledConnection;
+	}
 
-      PooledConnection pc = ((ConnectionPoolDataSource) rds).getPooledConnection(s, s1);
-      P6PooledConnection pooledConnection = new P6PooledConnection(pc);
-      return pooledConnection;
-    }
+	public PooledConnection getPooledConnection(String s, String s1) throws SQLException {
+
+		if (rds == null) {
+			bindDataSource();
+		}
+
+		PooledConnection pc = ((ConnectionPoolDataSource) rds).getPooledConnection(s, s1);
+		P6PooledConnection pooledConnection = new P6PooledConnection(pc);
+		return pooledConnection;
+	}
 
 }
