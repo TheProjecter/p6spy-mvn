@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
  * @since: 2011-12-30
  * @version: $Revision: 1.0
  */
-public class P6FormatterImpl implements P6Formatter {
+public class P6SpyFormatterImpl implements P6SpyFormatter {
 
 	private static final Set<String> BEGIN_CLAUSES = new HashSet<String>();
 	private static final Set<String> END_CLAUSES = new HashSet<String>();

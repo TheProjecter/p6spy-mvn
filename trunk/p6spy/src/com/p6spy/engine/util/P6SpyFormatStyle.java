@@ -8,15 +8,15 @@ package com.p6spy.engine.util;
  * @version: $Revision: 1.0
  */
 
-public class P6FormatStyle {
-	public static final P6FormatStyle BASIC = new P6FormatStyle( "basic", new P6FormatterImpl() );
-	public static final P6FormatStyle DDL = new P6FormatStyle( "ddl", new P6DDLFormatterImpl() );
-	public static final P6FormatStyle NONE = new P6FormatStyle( "none", new P6NoFormatImpl() );
+public class P6SpyFormatStyle {
+	public static final P6SpyFormatStyle BASIC = new P6SpyFormatStyle( "basic", new P6SpyFormatterImpl() );
+	public static final P6SpyFormatStyle DDL = new P6SpyFormatStyle( "ddl", new P6SpyDDLFormatterImpl() );
+	public static final P6SpyFormatStyle NONE = new P6SpyFormatStyle( "none", new P6NoFormatImpl() );
 
 	private final String name;
-	private final P6Formatter formatter;
+	private final P6SpyFormatter formatter;
 
-	private P6FormatStyle(String name, P6Formatter formatter) {
+	private P6SpyFormatStyle(String name, P6SpyFormatter formatter) {
 		this.name = name;
 		this.formatter = formatter;
 	}
@@ -25,7 +25,7 @@ public class P6FormatStyle {
 		return name;
 	}
 
-	public P6Formatter getFormatter() {
+	public P6SpyFormatter getFormatter() {
 		return formatter;
 	}
 
@@ -37,7 +37,7 @@ public class P6FormatStyle {
 			return false;
 		}
 
-		P6FormatStyle that = ( P6FormatStyle ) o;
+		P6SpyFormatStyle that = ( P6SpyFormatStyle ) o;
 
 		return name.equals( that.name );
 
@@ -47,7 +47,7 @@ public class P6FormatStyle {
 		return name.hashCode();
 	}
 
-	private static class P6NoFormatImpl implements P6Formatter {
+	private static class P6NoFormatImpl implements P6SpyFormatter {
 		public String format(String source) {
 			return source;
 		}
