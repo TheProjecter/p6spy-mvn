@@ -141,7 +141,7 @@ import com.p6spy.engine.spy.P6Statement;
 public class P6LogStatement extends P6Statement implements Statement {
     
     
-    public P6LogStatement(P6Factory factory, Statement statement, P6Connection conn) {
+	public P6LogStatement(P6Factory factory, Statement statement, P6Connection conn) {
         super(factory, statement, conn);
     }
     
