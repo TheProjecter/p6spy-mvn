@@ -520,8 +520,8 @@ public class P6Util {
 
 	public static Object get(Class<?> klass, String method) throws IntrospectionException, IllegalAccessException,
 			NoSuchMethodException, InvocationTargetException {
-		Method m = klass.getDeclaredMethod(method, Class[].class);
-		return (m.invoke(null, new Object[]{}));
+		Method m = klass.getDeclaredMethod(method, null);
+		return (m.invoke(null, null));
 	}
 
 	public static List<String> dynamicGetOptions(Class<?> klass) {
