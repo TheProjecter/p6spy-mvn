@@ -121,6 +121,10 @@ public abstract class FormattedLogger {
 						"|" + elapsed + "|" + (connectionId == -1 ? "" : String.valueOf(connectionId)) + "|" + category + "|"
 								+ prepared + "|" + statement + ";";
 			}
+			
+			if (Boolean.TRUE.equals(isFormatSql)) {
+				logEntry += "\r\n";
+			}
 
 			logText(logEntry);
 		}
