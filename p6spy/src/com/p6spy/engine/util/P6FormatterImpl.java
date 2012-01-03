@@ -61,7 +61,7 @@ public class P6FormatterImpl implements P6Formatter {
 	}
 
 	static final String indentString = "    ";
-	static final String initial = "";
+	static final String initial = "    ";
 	static final String WHITESPACE = " \n\r\f\t";
 
 	public String format(String source) {
@@ -252,7 +252,7 @@ public class P6FormatterImpl implements P6Formatter {
 		private void select() {
 			out();
 			indent++;
-			newTab();//No need to break new line.
+			newline();
 			parenCounts.addLast( new Integer( parensSinceSelect ) );
 			afterByOrFromOrSelects.addLast( Boolean.valueOf( afterByOrSetOrFromOrSelect ) );
 			parensSinceSelect = 0;
@@ -276,7 +276,7 @@ public class P6FormatterImpl implements P6Formatter {
 			if ( !"union".equals( lcToken ) ) {
 				indent++;
 			}
-			result.append(" ");
+			newline();
 			afterBeginBeforeEnd = false;
 			afterByOrSetOrFromOrSelect = "by".equals( lcToken )
 					|| "set".equals( lcToken )
@@ -366,10 +366,6 @@ public class P6FormatterImpl implements P6Formatter {
 				result.append( indentString );
 			}
 			beginLine = true;
-		}
-		
-		private void newTab() {
-			result.append("\t");
 		}
 		
 	}

@@ -133,7 +133,6 @@ import com.p6spy.engine.common.P6LogQuery;
 import com.p6spy.engine.spy.P6Connection;
 import com.p6spy.engine.spy.P6Factory;
 
-@SuppressWarnings("unchecked")
 public class P6LogConnection extends P6Connection implements java.sql.Connection {
 
 	public P6LogConnection(P6Factory factory, Connection conn) throws SQLException {
