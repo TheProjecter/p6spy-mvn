@@ -64,8 +64,8 @@ package com.p6spy.engine.logging.appender;
 import java.util.Properties;
 
 import com.p6spy.engine.common.P6SpyProperties;
-import com.p6spy.engine.util.P6FormatStyle;
-import com.p6spy.engine.util.P6Formatter;
+import com.p6spy.engine.util.P6SpyFormatStyle;
+import com.p6spy.engine.util.P6SpyFormatter;
 import com.p6spy.engine.util.P6PropertiesHelper;
 import com.p6spy.engine.util.P6SpyConst;
 
@@ -80,7 +80,7 @@ import com.p6spy.engine.util.P6SpyConst;
 public abstract class FormattedLogger {
 
 	protected String lastEntry;
-	private P6Formatter formatter;
+	private P6SpyFormatter formatter;
 
 	/**
 	 * handling for SQL statements output.
@@ -130,17 +130,17 @@ public abstract class FormattedLogger {
 	/**
 	 * Get the formatter for SQL type.
 	 */
-	public P6Formatter getFormatter(String sql) {
+	public P6SpyFormatter getFormatter(String sql) {
 		String lowerSql = sql.toLowerCase();
 		if (lowerSql.startsWith(P6SpyConst.DDL_CREATE_TABLE) || lowerSql.startsWith(P6SpyConst.DDL_DROP_TABLE)
 				|| lowerSql.startsWith(P6SpyConst.DDL_ALTER_TABLE) || lowerSql.startsWith(P6SpyConst.DDL_COMMENT_ON)
 				|| lowerSql.startsWith(P6SpyConst.DDL_TRUNC_TABLE)) {
-			return P6FormatStyle.DDL.getFormatter();
+			return P6SpyFormatStyle.DDL.getFormatter();
 		} else if (lowerSql.startsWith(P6SpyConst.DML_INSERT_PREFIX) || lowerSql.startsWith(P6SpyConst.DML_UPDATE_PREFIX)
 				|| lowerSql.startsWith(P6SpyConst.DML_DELETE_PREFIX) || lowerSql.startsWith(P6SpyConst.DML_SELECT_PREFIX)) {
-			return P6FormatStyle.BASIC.getFormatter();
+			return P6SpyFormatStyle.BASIC.getFormatter();
 		} else {
-			return P6FormatStyle.NONE.getFormatter();
+			return P6SpyFormatStyle.NONE.getFormatter();
 		}
 	}
 

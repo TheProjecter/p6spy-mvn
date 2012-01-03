@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
  * @since: 2011-12-30
  * @version: $Revision: 1.0
  */
-public class P6DDLFormatterImpl implements P6Formatter {
+public class P6SpyDDLFormatterImpl implements P6SpyFormatter {
 	/**
 	 * Format an SQL statement using simple rules<ul>
 	 * <li>Insert newline after each comma</li>
